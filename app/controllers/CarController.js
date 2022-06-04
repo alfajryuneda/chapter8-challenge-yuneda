@@ -1,5 +1,8 @@
 const { Op } = require('sequelize');
 const ApplicationController = require('./ApplicationController');
+const {
+  CarAlreadyRentedError,
+} = require('../errors');
 
 class CarController extends ApplicationController {
   constructor({ carModel, userCarModel, dayjs }) {
@@ -61,7 +64,8 @@ class CarController extends ApplicationController {
 
   handleRentCar = async (req, res, next) => {
     try {
-      let { rentStartedAt, rentEndedAt } = req.body;
+      const { rentStartedAt } = req.body;
+      let { rentEndedAt } = req.body;
       const car = await this.getCarFromRequest(req);
 
       if (!rentEndedAt) rentEndedAt = this.dayjs(rentStartedAt).add(1, 'day');
@@ -128,8 +132,14 @@ class CarController extends ApplicationController {
   };
 
   handleDeleteCar = async (req, res) => {
-    const car = await this.carModel.destroy(req.params.id);
-    res.status(204).end();
+    const car = await this.carModel.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+    res.status(201).json({
+      message: req.params.id,
+    });
   };
 
   getCarFromRequest(req) {
