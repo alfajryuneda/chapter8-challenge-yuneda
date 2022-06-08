@@ -29,7 +29,7 @@ class CarController extends ApplicationController {
   };
 
   handleGetCar = async (req, res) => {
-    const car = await this.getCarFromRequest(req);
+    const car = await this.getCarFromRequest(req.params.id);
 
     res.status(200).json(car);
   };
@@ -110,17 +110,24 @@ class CarController extends ApplicationController {
         image,
       } = req.body;
 
-      const car = this.getCarFromRequest(req);
+      const car = await this.getCarFromRequest(req.params.id);
 
-      await car.update({
+      const newCar = await this.carModel.update({
         name,
         price,
         size,
         image,
         isCurrentlyRented: false,
+      }, {
+        where: {
+          id: car.id,
+        },
       });
 
-      res.status(200).json(car);
+      res.status(201).json({
+        message: 'succesfully updated',
+        data: await this.getCarFromRequest(req.params.id),
+      });
     } catch (err) {
       res.status(422).json({
         error: {
@@ -142,8 +149,9 @@ class CarController extends ApplicationController {
     });
   };
 
-  getCarFromRequest(req) {
-    return this.carModel.findByPk(req.params.id);
+  async getCarFromRequest(req) {
+    const response = await this.carModel.findByPk(req);
+    return response;
   }
 
   getListQueryFromRequest(req) {
