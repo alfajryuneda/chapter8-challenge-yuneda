@@ -1,4 +1,4 @@
-name: CI_CD_CAR_API
+name: CI_CD_CAR_API_V1
 
 on:
   push:
