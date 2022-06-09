@@ -25,7 +25,7 @@ describe('DELETE /v1/tasks/:id', () => {
       .set('Accept', 'application/json')
       .set(
         'Authorization',
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywibmFtZSI6IkZpa3JpIiwiZW1haWwiOiJmaWtyaUBiaW5hci5jby5pZCIsImltYWdlIjpudWxsLCJyb2xlIjp7ImlkIjoyLCJuYW1lIjoiQURNSU4ifSwiaWF0IjoxNjU0NjU2MDE4LCJleHAiOjE2NTQ3NDI0MTh9.sysMw_ZESK7Sj_E6T3Fm0_PkrDhq6zUoHMpy28PYobg',
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwibmFtZSI6IkZpa3JpIiwiZW1haWwiOiJmaWtyaUBiaW5hci5jby5pZCIsImltYWdlIjpudWxsLCJyb2xlIjp7ImlkIjoyLCJuYW1lIjoiQURNSU4ifSwiaWF0IjoxNjU0NzUyNTc5fQ.F1utf1y6-66XCIL7Ql4htirTLXwRQcNvuq-Ob-crQZw',
       )
       .then((res) => {
         expect(res.statusCode).toBe(201);
