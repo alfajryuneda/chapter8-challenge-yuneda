@@ -66,7 +66,6 @@ class CarController extends ApplicationController {
     try {
       const { rentStartedAt } = req.body;
       let { rentEndedAt } = req.body;
-      console.log(req.params, req.body);
       const car = await this.getCarFromRequest(req.params.id);
 
       if (!rentEndedAt) rentEndedAt = this.dayjs(rentStartedAt).add(1, 'day');
@@ -82,9 +81,9 @@ class CarController extends ApplicationController {
           },
         },
       });
-      console.log(activeRent);
 
       if (activeRent) {
+        console.log('active rent', activeRent);
         const err = new CarAlreadyRentedError(car);
         res.status(422).json(err);
         return;

@@ -6,6 +6,6 @@ describe('Cars', () => {
     return request(app)
       .get('/v1/cars/2')
       .set('Accept', 'application/json')
-      .expect(201);
+      .expect(200);
   });
 });

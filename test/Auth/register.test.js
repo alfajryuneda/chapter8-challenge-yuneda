@@ -7,7 +7,7 @@ describe('User', () => {
   afterAll(async () => {
     user = await User.destroy({
       where: {
-        email: 'yuneda@gmail.com',
+        email: 'rochim@gmail.com',
       },
     });
   });
@@ -17,10 +17,12 @@ describe('User', () => {
       .set('Accept', 'application/json')
       .send({
         name: 'yuneda',
-        email: 'yuneda@gmail.com',
+        email: 'rochim@gmail.com',
         password: 'yuneda',
       })
-      .expect(201);
+      .then((res) => {
+        expect(res.statusCode).toBe(201);
+      });
   });
   it('Register user with same email', () => {
     return request(app)
@@ -28,7 +30,7 @@ describe('User', () => {
       .set('Accept', 'application/json')
       .send({
         name: 'achmad',
-        email: 'yuneda@gmail.com',
+        email: 'rochim@gmail.com',
         password: 'achmad',
       })
       .expect(422);

@@ -14,7 +14,7 @@
     "lint": "eslint ./**/*.js",
     "lint:fix": "eslint --fix ./**/*.js",
     "test": "jest",
-    "test2": "jest ./test/Auth"
+    "test2": "jest ./test/Auth/login.test.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

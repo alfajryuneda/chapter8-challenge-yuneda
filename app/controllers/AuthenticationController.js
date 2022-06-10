@@ -69,6 +69,7 @@ class AuthenticationController extends ApplicationController {
 
       if (!isPasswordCorrect) {
         const err = new WrongPasswordError();
+        console.log(err);
         res.status(401).json(err);
         return;
       }
@@ -137,16 +138,18 @@ class AuthenticationController extends ApplicationController {
     res.status(200).json(user);
   };
 
-  createTokenFromUser = (user, role) => this.jwt.sign({
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    image: user.image,
-    role: {
-      id: role.id,
-      name: role.name,
-    },
-  }, JWT_SIGNATURE_KEY);
+  createTokenFromUser = (user, role) => {
+    return this.jwt.sign({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      image: user.image,
+      role: {
+        id: role.id,
+        name: role.name,
+      },
+    }, JWT_SIGNATURE_KEY);
+  };
 
   decodeToken(token) {
     return this.jwt.verify(token, JWT_SIGNATURE_KEY);
