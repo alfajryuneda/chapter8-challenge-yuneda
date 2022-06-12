@@ -69,7 +69,6 @@ class AuthenticationController extends ApplicationController {
 
       if (!isPasswordCorrect) {
         const err = new WrongPasswordError();
-        console.log(err);
         res.status(401).json(err);
         return;
       }
@@ -90,6 +89,10 @@ class AuthenticationController extends ApplicationController {
       const email = req.body.email.toLowerCase();
       const { password } = req.body;
       const existingUser = await this.userModel.findOne({ where: { email } });
+
+      if (!name || !password || !email) {
+        throw new Error('name or password or email must not be empty');
+      }
 
       if (existingUser) {
         const err = new EmailAlreadyTakenError(email);
@@ -113,24 +116,14 @@ class AuthenticationController extends ApplicationController {
       res.status(201).json({
         accessToken,
       });
-    } catch (err) {
-      next(err);
-    }
+    } catch (err) { next(err); }
   };
 
   handleGetUser = async (req, res) => {
     const user = await this.userModel.findByPk(req.user.id);
 
     if (!user) {
-      const err = new RecordNotFoundError(this.userModel.name);
-      res.status(404).json(err);
-      return;
-    }
-
-    const role = await this.roleModel.findByPk(user.roleId);
-
-    if (!role) {
-      const err = new RecordNotFoundError(this.roleModel.name);
+      const err = new RecordNotFoundError(req.user.name);
       res.status(404).json(err);
       return;
     }

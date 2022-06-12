@@ -43,6 +43,8 @@ class CarController extends ApplicationController {
         image,
       } = req.body;
 
+      if (!name) throw new Error('Name must be provided');
+
       const car = await this.carModel.create({
         name,
         price,
@@ -69,6 +71,7 @@ class CarController extends ApplicationController {
       const car = await this.getCarFromRequest(req.params.id);
 
       if (!rentEndedAt) rentEndedAt = this.dayjs(rentStartedAt).add(1, 'day');
+      if (!rentStartedAt) throw new Error('rentStartedAt must not be empty!!');
 
       const activeRent = await this.userCarModel.findOne({
         where: {
@@ -83,7 +86,6 @@ class CarController extends ApplicationController {
       });
 
       if (activeRent) {
-        console.log('active rent', activeRent);
         const err = new CarAlreadyRentedError(car);
         res.status(422).json(err);
         return;
@@ -105,9 +107,7 @@ class CarController extends ApplicationController {
       });
 
       res.status(201).json(userCar);
-    } catch (err) {
-      next(err);
-    }
+    } catch (err) { next(err); }
   };
 
   handleUpdateCar = async (req, res) => {
@@ -164,9 +164,12 @@ class CarController extends ApplicationController {
   }
 
   getListQueryFromRequest(req) {
-    const { size, availableAt } = req.query;
+    const { size = 'SMALL', availableAt = '2022-06-07T22:20:55.029Z' } = req.query;
     const offset = this.getOffsetFromRequest(req);
-    const limit = req.query.pageSize || 10;
+    let limit = 10;
+    if (req.query.pageSize) {
+      limit = req.query.pageSize;
+    }
     const where = {};
     const include = {
       model: this.userCarModel,

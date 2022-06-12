@@ -17,7 +17,7 @@ describe('DELETE /v1/tasks/:id', () => {
 
   beforeEach(async () => {
     car = await Car.create({
-      name: 'Daihatsu Baru',
+      name: 'Vega X R',
       price: 20000,
       size: 'SMALL',
       image: 'car.jpg',
@@ -27,8 +27,6 @@ describe('DELETE /v1/tasks/:id', () => {
     return car;
   });
 
-  afterEach(() => car.destroy());
-
   it('should response with 200 as status code', async () => {
     return request(app)
       .delete(`/v1/cars/${car.id}`)
@@ -36,6 +34,9 @@ describe('DELETE /v1/tasks/:id', () => {
       .set('Authorization', `Bearer ${accessToken}`)
       .then((res) => {
         expect(res.statusCode).toBe(201);
+        expect(res.body).toEqual({
+          message: expect.any(String),
+        });
       });
   });
 });

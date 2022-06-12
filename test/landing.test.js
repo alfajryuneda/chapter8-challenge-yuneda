@@ -11,7 +11,7 @@ describe('GET /', () => {
     });
   });
 
-  it('should return 404 Not Found', async () => {
+  it('should return 404 Not Found || Page not found', async () => {
     const response = await request(app).get('/not-found');
     expect(response.status).toBe(404);
     expect(response.body).toEqual({

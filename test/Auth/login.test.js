@@ -31,7 +31,18 @@ describe('POST /v1/auth/login', () => {
         email: notRegisteredEmail,
         password,
       })
-      .expect(404);
+      .then((res) => {
+        expect(res.statusCode).toBe(404);
+        expect(res.body).toEqual({
+          error: {
+            name: expect.any(String),
+            message: expect.any(String),
+            details: {
+              email: expect.any(String),
+            },
+          },
+        });
+      });
   });
   it('Login user where password is wrong', () => {
     return request(app)
@@ -41,6 +52,15 @@ describe('POST /v1/auth/login', () => {
         email,
         password: 'batman',
       })
-      .expect(401);
+      .then((res) => {
+        expect(res.statusCode).toBe(500);
+        expect.objectContaining({
+          error: {
+            name: expect.any(String),
+            message: expect.any(String),
+            details: null,
+          },
+        });
+      });
   });
 });
