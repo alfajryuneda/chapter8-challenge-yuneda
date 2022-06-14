@@ -1,4 +1,24 @@
-# BCR API
+# Challenge Chapter 8 || BCR API
+
+## Data User
+
+### admin
+
+```
+{
+  "email": "Fikri@binar.co.id",
+  "password": "123456"
+}
+```
+
+### customer
+
+```
+{
+  "email": "customer@binar.co.id",
+  "password": "customer"
+}
+```
 
 Di dalam repository ini terdapat implementasi API dari Binar Car Rental.
 Tugas kalian disini adalah:
